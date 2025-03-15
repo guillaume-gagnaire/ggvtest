@@ -18,5 +18,6 @@ export const routes: Routes = [
     component: AuthLayout,
     children: [{ path: '', component: LoginPage }],
     canActivate: [publicGuard],
+    canActivateChild: [publicGuard],
   },
 ];

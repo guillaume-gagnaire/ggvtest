@@ -113,7 +113,7 @@ export class UserRepository {
    * Récupère les données depuis le stockage local
    */
   private async getFromStorage(): Promise<User[]> {
-    const data = localStorage.getItem(this.STORAGE_KEY);
+    const data = window.localStorage.getItem(this.STORAGE_KEY);
     return data ? JSON.parse(data) : [];
   }
 
@@ -121,6 +121,6 @@ export class UserRepository {
    * Sauvegarde les données dans le stockage local
    */
   private saveToStorage(users: User[]): void {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
+    window.localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
   }
 }

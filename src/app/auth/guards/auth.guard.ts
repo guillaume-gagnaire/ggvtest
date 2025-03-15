@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
 import { Router, type CanActivateFn } from '@angular/router';
-import { authStore } from '../stores/auth.store';
+import { AuthStore } from '../stores/auth.store';
 
 export const authGuard: CanActivateFn = async (route, state) => {
   const router = inject(Router);
-  const store = inject(authStore);
+  const store = inject(AuthStore);
 
   // Si le store est en cours de chargement, on attend
   if (store.isLoading()) {

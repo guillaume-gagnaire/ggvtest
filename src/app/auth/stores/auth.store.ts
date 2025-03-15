@@ -15,15 +15,16 @@ const initialState: AuthState = {
   isLoading: true,
 };
 
-export const authStore = signalStore(
+export const AuthStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
   withMethods((store) => {
     const authService = inject(AuthService);
+    const localStorageKey = 'token';
 
     return {
       async init() {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem(localStorageKey);
         if (token) {
           const user = await authService.getUserByToken(token);
           if (user) {
@@ -31,6 +32,8 @@ export const authStore = signalStore(
               user: user,
               isAuthenticated: true,
             }));
+          } else {
+            localStorage.removeItem(localStorageKey);
           }
         }
         patchState(store, () => ({
@@ -38,7 +41,7 @@ export const authStore = signalStore(
         }));
       },
       logout() {
-        localStorage.removeItem('token');
+        localStorage.removeItem(localStorageKey);
         patchState(store, () => ({
           user: null,
           isAuthenticated: false,
@@ -46,7 +49,7 @@ export const authStore = signalStore(
       },
       async login(credentials: LoginCredentials) {
         const response = await authService.login(credentials);
-        localStorage.setItem('token', response.token);
+        localStorage.setItem(localStorageKey, response.token);
         patchState(store, () => ({
           user: response.user,
           isAuthenticated: true,

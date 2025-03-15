@@ -1,1 +1,39 @@
-<div>login page</div>
+<img src="/images/logo.png" alt="logo" class="w-42 h-42 mx-auto" />
+
+<h1 class="text-3xl font-bold text-center mb-8 text-primary">Connexion</h1>
+
+@if (errorMessage()) {
+<div class="mb-4">
+  <p-message icon="pi pi-exclamation-triangle" severity="error"
+    >{{ errorMessage() }}</p-message
+  >
+</div>
+}
+
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="handleSubmit()"
+  class="flex flex-col justify-stretch gap-4"
+>
+  <p-floatlabel variant="on">
+    <input pInputText id="email" type="email" formControlName="email" fluid />
+    <label for="email">Adresse email</label>
+  </p-floatlabel>
+  <p-floatlabel variant="on">
+    <p-password
+      id="password"
+      type="password"
+      formControlName="password"
+      [feedback]="false"
+      fluid
+    />
+    <label for="password">Mot de passe</label>
+  </p-floatlabel>
+  <p-button
+    type="submit"
+    [disabled]="!loginForm.valid"
+    label="Connexion"
+    class="w-full"
+    fluid
+  />
+</form>

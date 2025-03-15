@@ -1,126 +1,126 @@
-import { Injectable, signal } from '@angular/core'
-import { User } from '../models/user.model'
+import { Injectable, signal } from '@angular/core';
+import { User } from '../models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserRepository {
-  private readonly STORAGE_KEY = 'users'
+  private readonly STORAGE_KEY = 'users';
   private readonly DEMO_USERS: User[] = [
     {
       id: '1',
       firstname: 'Agent',
       lastname: 'M',
       email: 'directeur@agence-secrete.gov',
-      role: 'manager'
+      role: 'manager',
     },
     {
       id: '2',
       firstname: 'Ethan',
       lastname: 'Noir',
       email: 'shadow007@secret.gov',
-      role: 'user'
+      role: 'user',
     },
     {
       id: '3',
       firstname: 'Sophie',
       lastname: 'Leclerc',
       email: 'phantom@intelligence.org',
-      role: 'user'
+      role: 'user',
     },
     {
       id: '4',
       firstname: 'Léon',
       lastname: 'Dubois',
       email: 'eagle@espionage.net',
-      role: 'user'
-    }
-  ]
+      role: 'user',
+    },
+  ];
 
-  private users = signal<User[]>([])
+  private users = signal<User[]>([]);
 
-  constructor () {
-    this.initializeStorage()
+  constructor() {
+    this.initializeStorage();
   }
 
   /**
    * Initialise le stockage avec des données de démonstration si nécessaire
    */
-  private async initializeStorage (): Promise<void> {
-    const storedUsers = await this.getFromStorage()
+  private async initializeStorage(): Promise<void> {
+    const storedUsers = await this.getFromStorage();
     if (!storedUsers || storedUsers.length === 0) {
-      this.saveToStorage(this.DEMO_USERS)
-      this.users.set(this.DEMO_USERS)
+      this.saveToStorage(this.DEMO_USERS);
+      this.users.set(this.DEMO_USERS);
     } else {
-      this.users.set(storedUsers)
+      this.users.set(storedUsers);
     }
   }
 
   /**
    * Récupère tous les utilisateurs
    */
-  getAllUsers (): User[] {
-    return this.users()
+  getAllUsers(): User[] {
+    return this.users();
   }
 
   /**
    * Récupère un utilisateur par son ID
    */
-  getUserById (id: string): User | null {
-    return this.users().find(user => user.id === id) || null
+  getUserById(id: string): User | null {
+    return this.users().find((user) => user.id === id) || null;
   }
 
   /**
    * Récupère un utilisateur par son email
    */
-  getUserByEmail (email: string): User | null {
-    return this.users().find(user => user.email === email) || null
+  getUserByEmail(email: string): User | null {
+    return this.users().find((user) => user.email === email) || null;
   }
 
   /**
    * Met à jour un utilisateur existant
    */
-  updateUser (id: string, userData: Partial<User>): User | null {
+  updateUser(id: string, userData: Partial<User>): User | null {
     try {
-      let updatedUser: User | null = null
+      let updatedUser: User | null = null;
 
-      this.users.update(users => {
-        const index = users.findIndex(user => user.id === id)
-        if (index === -1) return users
+      this.users.update((users) => {
+        const index = users.findIndex((user) => user.id === id);
+        if (index === -1) return users;
 
-        updatedUser = { ...users[index], ...userData }
-        const updatedUsers = [...users]
-        updatedUsers[index] = updatedUser
+        updatedUser = { ...users[index], ...userData };
+        const updatedUsers = [...users];
+        updatedUsers[index] = updatedUser;
 
-        return updatedUsers
-      })
+        return updatedUsers;
+      });
 
       if (updatedUser) {
-        this.saveToStorage(this.users())
+        this.saveToStorage(this.users());
       }
 
-      return updatedUser
+      return updatedUser;
     } catch (error) {
       console.error(
         `Erreur lors de la mise à jour de l'utilisateur ${id}:`,
         error
-      )
-      throw error
+      );
+      throw error;
     }
   }
 
   /**
    * Récupère les données depuis le stockage local
    */
-  private async getFromStorage (): Promise<User[]> {
-    const data = localStorage.getItem(this.STORAGE_KEY)
-    return data ? JSON.parse(data) : []
+  private async getFromStorage(): Promise<User[]> {
+    const data = localStorage.getItem(this.STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
   }
 
   /**
    * Sauvegarde les données dans le stockage local
    */
-  private saveToStorage (users: User[]): void {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users))
+  private saveToStorage(users: User[]): void {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
   }
 }

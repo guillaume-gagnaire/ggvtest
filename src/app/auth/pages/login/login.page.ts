@@ -44,7 +44,11 @@ export class LoginPage {
         email: (this.loginForm.value.email ?? '') as string,
         password: (this.loginForm.value.password ?? '') as string,
       });
-      this.router.navigate(['/']);
+
+      const redirectUrl = new URLSearchParams(window.location.search).get(
+        'redirectUrl'
+      );
+      this.router.navigate([redirectUrl ?? '/']);
     } catch (err: any) {
       this.errorMessage.set(err.message);
     }

@@ -13,6 +13,7 @@ export class UserRepository {
       lastname: 'M',
       email: 'directeur@agence-secrete.gov',
       role: 'manager',
+      avatar: 'https://placecats.com/300/200',
     },
     {
       id: '2',
@@ -20,6 +21,7 @@ export class UserRepository {
       lastname: 'Noir',
       email: 'shadow007@secret.gov',
       role: 'user',
+      avatar: 'https://placecats.com/300/201',
     },
     {
       id: '3',
@@ -27,6 +29,7 @@ export class UserRepository {
       lastname: 'Leclerc',
       email: 'phantom@intelligence.org',
       role: 'user',
+      avatar: 'https://placecats.com/299/200',
     },
     {
       id: '4',
@@ -34,6 +37,7 @@ export class UserRepository {
       lastname: 'Dubois',
       email: 'eagle@espionage.net',
       role: 'user',
+      avatar: 'https://placecats.com/300/220',
     },
   ];
 

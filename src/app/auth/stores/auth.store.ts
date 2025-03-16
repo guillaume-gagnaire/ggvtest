@@ -2,6 +2,7 @@ import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { LoginCredentials, User } from '../models/user.model';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { fakeDelay } from '../../utils/fakeDelay';
 
 type AuthState = {
   user: User | null;
@@ -48,6 +49,7 @@ export const AuthStore = signalStore(
         }));
       },
       async login(credentials: LoginCredentials) {
+        await fakeDelay(1766);
         const response = await authService.login(credentials);
         localStorage.setItem(localStorageKey, response.token);
         patchState(store, () => ({

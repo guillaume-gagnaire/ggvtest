@@ -32,6 +32,7 @@
   <p-button
     type="submit"
     [disabled]="!loginForm.valid"
+    [loading]="loading()"
     label="Connexion"
     class="w-full"
     fluid

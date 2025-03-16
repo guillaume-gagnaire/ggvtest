@@ -4,6 +4,7 @@ export interface User {
   lastname: string;
   email: string;
   role: 'user' | 'manager';
+  avatar: string;
 }
 
 export interface LoginCredentials {

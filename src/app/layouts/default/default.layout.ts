@@ -7,6 +7,9 @@ import { PopoverModule } from 'primeng/popover';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
+import { MenuComponent } from './components/menu/menu.component';
+import { AppStore } from './stores/app.store';
+
 @Component({
   selector: 'app-default-layout',
   imports: [
@@ -16,6 +19,7 @@ import { AvatarModule } from 'primeng/avatar';
     PopoverModule,
     MenuModule,
     AvatarModule,
+    MenuComponent,
   ],
   templateUrl: './default.layout.html',
   styleUrl: './default.layout.css',
@@ -23,6 +27,7 @@ import { AvatarModule } from 'primeng/avatar';
 export class DefaultLayout {
   authStore = inject(AuthStore);
   router = inject(Router);
+  appStore = inject(AppStore);
 
   drawerVisible = false;
 

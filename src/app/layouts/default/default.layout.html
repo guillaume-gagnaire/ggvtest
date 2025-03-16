@@ -1,5 +1,7 @@
 <div class="flex h-screen layout-bg">
-  <aside class="w-64 p-4 shrink-0 hidden md:block">pwet aside</aside>
+  <aside class="w-64 p-4 shrink-0 hidden md:block overflow-auto">
+    <app-menu class="text-white" />
+  </aside>
   <main class="grow flex flex-col">
     <header class="p-4 shrink-0 flex items-center justify-between">
       <p-button
@@ -9,7 +11,7 @@
         class="md:hidden"
       />
       <div class="grow px-4 md:pl-0 text-xl font-bold text-white">
-        Page title
+        {{ appStore.title() }}
       </div>
       <p-avatar
         [image]="user()?.avatar"
@@ -17,9 +19,7 @@
         shape="circle"
         (click)="userMenu.toggle($event)"
       />
-      <p-popover #userMenu>
-        <p-menu [model]="userMenuItems" />
-      </p-popover>
+      <p-menu #userMenu [model]="userMenuItems" popup appendTo="body" />
     </header>
     <article class="p-4 grow bg-white md:rounded-tl-lg overflow-auto">
       uhzifuehbzfeiuh<br />
@@ -200,11 +200,10 @@
   </main>
 </div>
 
-<p-drawer [(visible)]="drawerVisible" header="CRA">
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat.
-  </p>
+<p-drawer [(visible)]="drawerVisible" [closable]="false">
+  <ng-template #headless>
+    <div class="p-4">
+      <app-menu />
+    </div>
+  </ng-template>
 </p-drawer>

@@ -1,0 +1,21 @@
+<div class="flex items-center justify-start gap-2">
+  <div class="w-48 shrink-0 flex items-center justify-center gap-2">
+    <p-avatar [image]="agent.avatar" shape="circle" />
+    <span class="grow">{{ agent.name }}</span>
+  </div>
+  @for (item of items(); track $index) {
+  <div
+    class="week-view-item-project min-w-32 flex-1 shrink-0"
+    [class.week-view-item-project-holiday]="agent.holidays.includes(item.date)"
+    [class.week-view-item-project-empty]="!item.activity"
+  >
+    @if (agent.holidays.includes(item.date) === false) {
+    <app-week-view-item-date
+      [agent]="agent"
+      [date]="item.date"
+      [project]="item.activity?.project ?? null"
+    />
+    }
+  </div>
+  }
+</div>

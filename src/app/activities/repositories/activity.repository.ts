@@ -46,13 +46,15 @@ export class ActivityRepository {
             continue;
           }
 
+          // We let some time without activity
+          if (Math.random() < 0.1) {
+            continue;
+          }
+
           activities.push({
             id: uuid(),
             agentId: agent.id,
-            projectId:
-              Math.random() > 0.1
-                ? projects[Math.floor(Math.random() * projects.length)].id
-                : null,
+            projectId: projects[Math.floor(Math.random() * projects.length)].id,
             date: formattedDateCursor,
           });
         }
@@ -64,8 +66,8 @@ export class ActivityRepository {
     return activities;
   }
 
-  getActivity(id: string): Activity | null {
-    return this.activities().find((activity) => activity.id === id) ?? null;
+  getActivity(filter?: (activity: Activity) => boolean): Activity | null {
+    return this.activities().find(filter || (() => true)) ?? null;
   }
 
   getActivities(filter?: (activity: Activity) => boolean): Activity[] {
@@ -91,5 +93,22 @@ export class ActivityRepository {
     }
 
     return updatedActivity;
+  }
+
+  createActivity(activity: Omit<Activity, 'id'>): Activity | null {
+    const newActivity = { ...activity, id: uuid() };
+    this.activities.update((activities) => {
+      return [...activities, newActivity];
+    });
+    this.storageService.store(this.STORAGE_KEY, this.activities());
+
+    return newActivity;
+  }
+
+  deleteActivity(id: string): void {
+    this.activities.update((activities) => {
+      return activities.filter((activity) => activity.id !== id);
+    });
+    this.storageService.store(this.STORAGE_KEY, this.activities());
   }
 }

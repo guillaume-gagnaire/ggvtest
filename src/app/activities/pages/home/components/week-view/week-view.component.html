@@ -1,0 +1,18 @@
+<div class="flex flex-col gap-2">
+  <header class="flex items-center justify-start gap-2">
+    <div class="w-48 shrink-0"></div>
+    @for (day of activitiesStore.displayedDays(); track day) {
+    <div
+      class="min-w-32 h-14 flex-1 shrink-0 text-center flex flex-col items-center justify-center"
+    >
+      <span class="text-xs uppercase">{{
+        day | date : "EEEE" : "" : "fr"
+      }}</span>
+      <span class="text-sm font-bold">{{ day | date : "dd/MM" }}</span>
+    </div>
+    }
+  </header>
+  @for (agent of agents; track agent.id) {
+  <app-week-view-item [agent]="agent"></app-week-view-item>
+  }
+</div>

@@ -11,17 +11,20 @@ export class ProjectRepository {
     {
       id: '1',
       name: 'Spectre',
-      color: '#FF0000',
+      color: '#E57373',
+      textColor: '#333333',
     },
     {
       id: '2',
       name: 'Quantum',
-      color: '#00FF00',
+      color: '#9575CD',
+      textColor: '#333333',
     },
     {
       id: '3',
       name: 'Skyfall',
-      color: '#0000FF',
+      color: '#4DB6AC',
+      textColor: '#333333',
     },
   ];
 

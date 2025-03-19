@@ -1,0 +1,10 @@
+<p-menu #menu [model]="items" [popup]="true" appendTo="body" />
+<div
+  class="flex items-center justify-center py-2 rounded-md cursor-pointer"
+  [style.background-color]="project?.color ?? 'transparent'"
+  [style.color]="project?.textColor ?? 'inherit'"
+  [class.opacity-50]="!project"
+  (click)="menu.toggle($event)"
+>
+  <span>{{ project?.name ?? "Aucun projet" }}</span>
+</div>

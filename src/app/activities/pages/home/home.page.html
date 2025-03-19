@@ -1,1 +1,15 @@
-<app-week-view></app-week-view>
+<div class="flex flex-col gap-4">
+  <div class="flex items-center justify-between">
+    <p-button
+      icon="pi pi-chevron-left"
+      severity="secondary"
+      (onClick)="activitiesStore.previousWeek()"
+    />
+    <p-button
+      icon="pi pi-chevron-right"
+      severity="secondary"
+      (onClick)="activitiesStore.nextWeek()"
+    />
+  </div>
+  <app-week-view></app-week-view>
+</div>

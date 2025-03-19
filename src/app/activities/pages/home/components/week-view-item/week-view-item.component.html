@@ -1,7 +1,7 @@
 <div class="flex items-center justify-start gap-2">
-  <div class="w-48 shrink-0 flex items-center justify-center gap-2">
+  <div class="w-48 shrink-0 flex items-center justify-center gap-3">
     <p-avatar [image]="agent.avatar" shape="circle" />
-    <span class="grow">{{ agent.name }}</span>
+    <span class="grow font-bold text-sm">{{ agent.name }}</span>
   </div>
   @for (item of items(); track $index) {
   <div
@@ -15,6 +15,12 @@
       [date]="item.date"
       [project]="item.activity?.project ?? null"
     />
+    } @else {
+    <div
+      class="week-view-item-project-holiday text-center italic opacity-50 rounded-md bg-gray-200 py-2"
+    >
+      <span class="text-sm">Congés</span>
+    </div>
     }
   </div>
   }

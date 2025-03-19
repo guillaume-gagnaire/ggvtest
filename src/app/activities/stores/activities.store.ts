@@ -30,13 +30,16 @@ export const ActivitiesStore = signalStore(
       displayedActivities: computed(() =>
         activityService.getActivitiesForRange(
           format(startOfWeek(dateCursor(), { weekStartsOn: 1 }), 'yyyy-MM-dd'),
-          format(endOfWeek(dateCursor(), { weekStartsOn: 1 }), 'yyyy-MM-dd')
+          format(
+            subDays(endOfWeek(dateCursor(), { weekStartsOn: 1 }), 2),
+            'yyyy-MM-dd'
+          )
         )
       ),
       displayedDays: computed(() =>
         eachDayOfInterval({
           start: startOfWeek(dateCursor(), { weekStartsOn: 1 }),
-          end: endOfWeek(dateCursor(), { weekStartsOn: 1 }),
+          end: subDays(endOfWeek(dateCursor(), { weekStartsOn: 1 }), 2),
         })
       ),
     };

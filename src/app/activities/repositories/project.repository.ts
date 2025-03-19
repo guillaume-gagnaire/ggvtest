@@ -49,6 +49,15 @@ export class ProjectRepository {
     return this.projects().filter(filter || (() => true));
   }
 
+  createProject(project: Project): Project {
+    this.projects.update((projects) => {
+      return [...projects, project];
+    });
+
+    this.storageService.store(this.STORAGE_KEY, this.projects());
+    return project;
+  }
+
   updateProject(id: string, projectData: Partial<Project>): Project | null {
     let updatedProject: Project | null = null;
 
@@ -68,5 +77,22 @@ export class ProjectRepository {
     }
 
     return updatedProject;
+  }
+
+  deleteProject(id: string): boolean {
+    let deleted = false;
+
+    this.projects.update((projects) => {
+      const initialLength = projects.length;
+      const filteredProjects = projects.filter((project) => project.id !== id);
+      deleted = filteredProjects.length !== initialLength;
+      return filteredProjects;
+    });
+
+    if (deleted) {
+      this.storageService.store(this.STORAGE_KEY, this.projects());
+    }
+
+    return deleted;
   }
 }

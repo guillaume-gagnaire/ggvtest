@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { DrawerModule } from 'primeng/drawer';
 import { ButtonModule } from 'primeng/button';
 import { AuthStore } from '../../auth/stores/auth.store';
@@ -9,6 +9,7 @@ import { MenuItem } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
 import { MenuComponent } from './components/menu/menu.component';
 import { AppStore } from './stores/app.store';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-default-layout',
@@ -35,13 +36,6 @@ export class DefaultLayout {
 
   userMenuItems: MenuItem[] = [
     {
-      label: 'Mon profil',
-      icon: 'pi pi-user',
-      command: () => {
-        this.router.navigate(['/profile']);
-      },
-    },
-    {
       label: 'Déconnexion',
       icon: 'pi pi-sign-out',
       command: () => {
@@ -50,4 +44,12 @@ export class DefaultLayout {
       },
     },
   ];
+
+  ngOnInit() {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.drawerVisible = false;
+      });
+  }
 }

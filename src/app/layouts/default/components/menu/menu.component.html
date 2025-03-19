@@ -1,11 +1,31 @@
 <div class="flex flex-col gap-4">
   <div class="flex items-center gap-2 my-1">
     <img src="images/logo.png" class="w-10 h-10" />
-    <span class="text-2xl font-bold">CRA</span>
+    <span class="text-2xl font-bold text-white">CRA</span>
   </div>
   <nav class="menu-nav">
     <ul>
-      <li></li>
+      <li>
+        <a
+          [className]="appStore.page() === 'home' ? 'active' : ''"
+          routerLink="/"
+          >Activités</a
+        >
+      </li>
+      <li>
+        <a
+          [className]="appStore.page() === 'projects' ? 'active' : ''"
+          routerLink="/projects"
+          >Projets</a
+        >
+      </li>
+      <li>
+        <a
+          [className]="appStore.page() === 'agents' ? 'active' : ''"
+          routerLink="/agents"
+          >Agents</a
+        >
+      </li>
     </ul>
   </nav>
 </div>

@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { MenuModule } from 'primeng/menu';
 import { AppStore } from '../../stores/app.store';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [MenuModule],
+  imports: [RouterLink],
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css',

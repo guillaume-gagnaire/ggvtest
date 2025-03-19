@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { User } from '../models/user.model';
+import { StorageService } from '../../services/storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,38 +13,13 @@ export class UserRepository {
       firstname: 'Agent',
       lastname: 'M',
       email: 'directeur@agence-secrete.gov',
-      role: 'manager',
       avatar: 'https://placecats.com/300/200',
-    },
-    {
-      id: '2',
-      firstname: 'Ethan',
-      lastname: 'Noir',
-      email: 'shadow007@secret.gov',
-      role: 'user',
-      avatar: 'https://placecats.com/300/201',
-    },
-    {
-      id: '3',
-      firstname: 'Sophie',
-      lastname: 'Leclerc',
-      email: 'phantom@intelligence.org',
-      role: 'user',
-      avatar: 'https://placecats.com/299/200',
-    },
-    {
-      id: '4',
-      firstname: 'Léon',
-      lastname: 'Dubois',
-      email: 'eagle@espionage.net',
-      role: 'user',
-      avatar: 'https://placecats.com/300/220',
     },
   ];
 
   private users = signal<User[]>([]);
 
-  constructor() {
+  constructor(private readonly storageService: StorageService) {
     this.initializeStorage();
   }
 
@@ -51,9 +27,9 @@ export class UserRepository {
    * Initialise le stockage avec des données de démonstration si nécessaire
    */
   private async initializeStorage(): Promise<void> {
-    const storedUsers = await this.getFromStorage();
+    const storedUsers = this.storageService.get(this.STORAGE_KEY);
     if (!storedUsers || storedUsers.length === 0) {
-      this.saveToStorage(this.DEMO_USERS);
+      this.storageService.store(this.STORAGE_KEY, this.DEMO_USERS);
       this.users.set(this.DEMO_USERS);
     } else {
       this.users.set(storedUsers);
@@ -100,7 +76,7 @@ export class UserRepository {
       });
 
       if (updatedUser) {
-        this.saveToStorage(this.users());
+        this.storageService.store(this.STORAGE_KEY, this.users());
       }
 
       return updatedUser;
@@ -111,20 +87,5 @@ export class UserRepository {
       );
       throw error;
     }
-  }
-
-  /**
-   * Récupère les données depuis le stockage local
-   */
-  private async getFromStorage(): Promise<User[]> {
-    const data = window.localStorage.getItem(this.STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
-  }
-
-  /**
-   * Sauvegarde les données dans le stockage local
-   */
-  private saveToStorage(users: User[]): void {
-    window.localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
   }
 }

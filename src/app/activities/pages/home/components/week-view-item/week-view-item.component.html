@@ -1,27 +1,44 @@
-<div class="flex items-center justify-start gap-2">
+<div
+  class="flex flex-col lg:flex-row items-stretch lg:items-center justify-start gap-2"
+>
   <div class="w-48 shrink-0 flex items-center justify-center gap-3">
     <p-avatar [image]="agent.avatar" shape="circle" />
     <span class="grow font-bold text-sm">{{ agent.name }}</span>
   </div>
-  @for (item of items(); track $index) {
   <div
-    class="week-view-item-project min-w-32 flex-1 shrink-0"
-    [class.week-view-item-project-holiday]="agent.holidays.includes(item.date)"
-    [class.week-view-item-project-empty]="!item.activity"
+    class="grow flex flex-col lg:flex-row items-stretch lg:items-center justify-center gap-2"
   >
-    @if (agent.holidays.includes(item.date) === false) {
-    <app-week-view-item-date
-      [agent]="agent"
-      [date]="item.date"
-      [project]="item.activity?.project ?? null"
-    />
-    } @else {
-    <div
-      class="week-view-item-project-holiday text-center italic opacity-50 rounded-md bg-gray-200 py-2"
-    >
-      <span class="text-sm">Congés</span>
+    @for (item of items(); track $index) {
+    <div class="flex-1 flex items-center justify-center gap-2">
+      <div class="lg:hidden w-42 shrink-0 flex gap-2 items-center justify-end">
+        <span class="text-xs uppercase">{{
+          item.date | date : "EEEE" : "" : "fr"
+        }}</span>
+
+        <span class="text-sm font-bold">{{ item.date | date : "dd/MM" }}</span>
+      </div>
+      <div
+        class="week-view-item-project flex-1 shrink-0"
+        [class.week-view-item-project-holiday]="
+          agent.holidays.includes(item.date)
+        "
+        [class.week-view-item-project-empty]="!item.activity"
+      >
+        @if (agent.holidays.includes(item.date) === false) {
+        <app-week-view-item-date
+          [agent]="agent"
+          [date]="item.date"
+          [project]="item.activity?.project ?? null"
+        />
+        } @else {
+        <div
+          class="week-view-item-project-holiday text-center italic opacity-50 rounded-md bg-gray-200 py-2"
+        >
+          <span class="text-sm">Congés</span>
+        </div>
+        }
+      </div>
     </div>
     }
   </div>
-  }
 </div>

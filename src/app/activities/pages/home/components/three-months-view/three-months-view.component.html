@@ -1,0 +1,48 @@
+<div class="flex gap-4 items-start justify-around">
+  @for (month of months(); track month; let i = $index) {
+  <div
+    class="flex flex-col"
+    [ngClass]="{
+      'max-lg:hidden': i !== 1
+    }"
+  >
+    <div
+      class="flex gap-2 items-center text-gray-300 border-2 border-white p-1"
+    >
+      @for (day of ['L', 'M', 'M', 'J', 'V', 'S', 'D']; track day) {
+      <div
+        class="w-6 flex items-center justify-center h-6 text-xs font-bold text-center"
+      >
+        {{ day }}
+      </div>
+      }
+    </div>
+    @for (week of month.weeks; track week) {
+    <div
+      class="flex items-center p-1 gap-2 border-2 border-white rounded-md"
+      [ngClass]="{
+        '!border-pink-300': isCurrentWeek(week.days[0].date ?? '')
+      }"
+    >
+      @for (day of week.days; track day) {
+      <div
+        class="w-6 overflow-hidden rounded flex flex-col h-6"
+        [class.cursor-pointer]="day.date"
+        [class.bg-gray-200]="day.date"
+        [pTooltip]="formatDate(day.date ?? '')"
+        tooltipPosition="top"
+        (click)="day.date && setDateCursor(day.date)"
+      >
+        @for (activity of day.activities; track activity) {
+        <div
+          class="h-2 w-full"
+          [style.background-color]="activity.project?.color"
+        ></div>
+        }
+      </div>
+      }
+    </div>
+    }
+  </div>
+  }
+</div>

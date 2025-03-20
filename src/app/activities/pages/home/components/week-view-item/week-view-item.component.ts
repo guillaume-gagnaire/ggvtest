@@ -8,6 +8,7 @@ import { Project } from '../../../../models/project.model';
 import { SelectModule } from 'primeng/select';
 import { ActivityService } from '../../../../services/activity.service';
 import { WeekViewItemDateComponent } from '../week-view-item-date/week-view-item-date.component';
+import { DatePipe } from '@angular/common';
 
 type ProjectWithNull =
   | Project
@@ -17,7 +18,7 @@ type ProjectWithNull =
   selector: 'app-week-view-item',
   templateUrl: './week-view-item.component.html',
   styleUrl: './week-view-item.component.css',
-  imports: [AvatarModule, SelectModule, WeekViewItemDateComponent],
+  imports: [AvatarModule, SelectModule, WeekViewItemDateComponent, DatePipe],
 })
 export class WeekViewItemComponent {
   constructor(

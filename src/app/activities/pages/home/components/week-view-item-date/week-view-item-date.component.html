@@ -4,6 +4,8 @@
   [style.background-color]="project?.color ?? 'transparent'"
   [style.color]="project?.textColor ?? 'inherit'"
   [class.opacity-50]="!project"
+  [class.border]="!project"
+  [class.border-gray-300]="!project"
   (click)="menu.toggle($event)"
 >
   <span>{{ project?.name ?? "Aucun projet" }}</span>

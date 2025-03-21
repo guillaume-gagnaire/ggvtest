@@ -111,4 +111,11 @@ export class ActivityRepository {
     });
     this.storageService.store(this.STORAGE_KEY, this.activities());
   }
+
+  deleteActivities(filter: (activity: Activity) => boolean): void {
+    this.activities.update((activities) => {
+      return activities.filter((activity) => !filter(activity));
+    });
+    this.storageService.store(this.STORAGE_KEY, this.activities());
+  }
 }

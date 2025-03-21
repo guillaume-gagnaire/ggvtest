@@ -50,4 +50,8 @@ export class ActivityService {
       }
     }
   }
+
+  deleteActivities(filter: (activity: Activity) => boolean): void {
+    this.activityRepository.deleteActivities(filter);
+  }
 }

@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { Agent } from '../models/agent.model';
 import { addDays, format, startOfWeek, subWeeks } from 'date-fns';
 import { StorageService } from '../../services/storage.service';
+import { ActivityRepository } from './activity.repository';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,10 @@ export class AgentRepository {
 
   private agents = signal<Agent[]>([]);
 
-  constructor(private readonly storageService: StorageService) {
+  constructor(
+    private readonly storageService: StorageService,
+    private readonly activityRepository: ActivityRepository
+  ) {
     this.initializeStorage();
   }
 
@@ -67,6 +71,15 @@ export class AgentRepository {
     return this.agents().filter(filter || (() => true));
   }
 
+  createAgent(agent: Agent): Agent {
+    this.agents.update((agents) => {
+      return [...agents, agent];
+    });
+
+    this.storageService.store(this.STORAGE_KEY, this.agents());
+    return agent;
+  }
+
   updateAgent(id: string, agentData: Partial<Agent>): Agent | null {
     let updatedAgent: Agent | null = null;
 
@@ -86,5 +99,26 @@ export class AgentRepository {
     }
 
     return updatedAgent;
+  }
+
+  deleteAgent(id: string): boolean {
+    let deleted = false;
+
+    this.agents.update((agents) => {
+      const initialLength = agents.length;
+      const filteredAgents = agents.filter((agent) => agent.id !== id);
+      deleted = filteredAgents.length !== initialLength;
+      return filteredAgents;
+    });
+
+    if (deleted) {
+      this.storageService.store(this.STORAGE_KEY, this.agents());
+    }
+
+    this.activityRepository.deleteActivities(
+      (activity) => activity.agentId === id
+    );
+
+    return deleted;
   }
 }

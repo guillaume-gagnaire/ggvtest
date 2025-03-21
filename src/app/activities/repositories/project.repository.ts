@@ -31,10 +31,7 @@ export class ProjectRepository {
 
   private projects = signal<Project[]>([]);
 
-  constructor(
-    private readonly storageService: StorageService,
-    private readonly activityRepository: ActivityRepository
-  ) {
+  constructor(private readonly storageService: StorageService) {
     this.initializeStorage();
   }
 
@@ -99,10 +96,6 @@ export class ProjectRepository {
     if (deleted) {
       this.storageService.store(this.STORAGE_KEY, this.projects());
     }
-
-    this.activityRepository.deleteActivities(
-      (activity) => activity.projectId === id
-    );
 
     return deleted;
   }

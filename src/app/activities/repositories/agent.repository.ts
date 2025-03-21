@@ -32,10 +32,7 @@ export class AgentRepository {
 
   private agents = signal<Agent[]>([]);
 
-  constructor(
-    private readonly storageService: StorageService,
-    private readonly activityRepository: ActivityRepository
-  ) {
+  constructor(private readonly storageService: StorageService) {
     this.initializeStorage();
   }
 
@@ -114,10 +111,6 @@ export class AgentRepository {
     if (deleted) {
       this.storageService.store(this.STORAGE_KEY, this.agents());
     }
-
-    this.activityRepository.deleteActivities(
-      (activity) => activity.agentId === id
-    );
 
     return deleted;
   }

@@ -2,12 +2,16 @@ import { Injectable, inject } from '@angular/core';
 import { ProjectRepository } from '../repositories/project.repository';
 import { Project } from '../models/project.model';
 import { v4 as uuid } from 'uuid';
+import { ActivityRepository } from '../repositories/activity.repository';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectService {
-  private projectRepository = inject(ProjectRepository);
+  constructor(
+    private readonly projectRepository: ProjectRepository,
+    private readonly activityRepository: ActivityRepository
+  ) {}
 
   getAllProjects(): Project[] {
     return this.projectRepository.getProjects();
@@ -27,6 +31,9 @@ export class ProjectService {
   }
 
   deleteProject(id: string): boolean {
+    this.activityRepository.deleteActivities(
+      (activity) => activity.projectId === id
+    );
     return this.projectRepository.deleteProject(id);
   }
 }
